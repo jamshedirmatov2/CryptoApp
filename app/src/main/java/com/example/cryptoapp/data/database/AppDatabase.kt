@@ -1,12 +1,11 @@
-package com.example.cryptoapp.database
+package com.example.cryptoapp.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.cryptoapp.pojo.CoinPriceInfo
 
-@Database(entities = [CoinPriceInfo::class], version = 1, exportSchema = false)
+@Database(entities = [CoinInfoDbModel::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         private var db: AppDatabase? = null
@@ -17,12 +16,14 @@ abstract class AppDatabase : RoomDatabase() {
             synchronized(lock) {
                 db?.let { return it }
                 val instance =
-                    Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME).build()
+                    Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME)
+                        .fallbackToDestructiveMigration()
+                        .build()
                 db = instance
                 return instance
             }
         }
     }
 
-    abstract fun coinPriceInfoDao(): CoinInfoPriceDao
+    abstract fun coinPriceInfoDao(): CoinInfoDao
 }
