@@ -41,11 +41,11 @@ android {
 
 dependencies {
     implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.squareup.retrofit.gson)
-    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.picasso)
+    implementation(libs.androidx.work.runtime)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
