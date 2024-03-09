@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.wigroup.cryptoapp.R
-import com.wigroup.cryptoapp.databinding.ActivityCoinPrceListBinding
+import com.wigroup.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.wigroup.cryptoapp.domain.CoinInfo
 import com.wigroup.cryptoapp.presentation.adapters.CoinInfoAdapter
 
@@ -16,7 +16,7 @@ class CoinPriceListActivity : AppCompatActivity() {
     private lateinit var viewModel: CoinViewModel
 
     private val binding by lazy {
-        ActivityCoinPrceListBinding.inflate(layoutInflater)
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,9 +40,10 @@ class CoinPriceListActivity : AppCompatActivity() {
             }
         }
         binding.rvCoinPriceList.adapter = adapter
+        binding.rvCoinPriceList.itemAnimator = null
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         viewModel.coinInfoList.observe(this) {
-            adapter.coinInfoList = it
+            adapter.submitList(it)
         }
     }
 }
