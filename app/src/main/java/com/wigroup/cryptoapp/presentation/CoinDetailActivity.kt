@@ -7,14 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
 import com.wigroup.cryptoapp.R
 import com.wigroup.cryptoapp.databinding.ActivityCoinDetailBinding
 
 class CoinDetailActivity : AppCompatActivity() {
-
-    private lateinit var viewModel: CoinViewModel
 
     private val binding by lazy {
         ActivityCoinDetailBinding.inflate(layoutInflater)
@@ -24,7 +20,7 @@ class CoinDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.fragment_container)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -35,18 +31,11 @@ class CoinDetailActivity : AppCompatActivity() {
             return
         }
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
-        viewModel.getDetailInfo(fromSymbol).observe(this) {
-            with(binding) {
-                tvPrice.text = it.price
-                tvMinPrice.text = it.lowDay
-                tvMaxPrice.text = it.highDay
-                tvLastMarket.text = it.lastMarket
-                tvLastUpdate.text = it.lastUpdate
-                tvFromSymbol.text = it.fromSymbol
-                tvToSymbol.text = it.toSymbol
-                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
-            }
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, CoinDetailFragment.newInstance(fromSymbol))
+                .commit()
         }
     }
 
