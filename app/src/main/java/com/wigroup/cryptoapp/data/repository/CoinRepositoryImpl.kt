@@ -28,8 +28,7 @@ class CoinRepositoryImpl(
         }
 
     override fun loadData() {
-        WorkManager
-            .getInstance(application)
+        WorkManager.getInstance(application)
             .enqueueUniqueWork(
                 RefreshDataWorker.NAME,
                 ExistingWorkPolicy.REPLACE,
