@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.squareup.retrofit.gson)
     implementation(libs.picasso)
     implementation(libs.androidx.work.runtime)
+    implementation(libs.dagger)
+    ksp(libs.dagger.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

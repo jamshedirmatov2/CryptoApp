@@ -1,19 +1,16 @@
 package com.wigroup.cryptoapp.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import com.wigroup.cryptoapp.data.repository.CoinRepositoryImpl
+import androidx.lifecycle.ViewModel
 import com.wigroup.cryptoapp.domain.GetCoinInfoListUseCase
 import com.wigroup.cryptoapp.domain.GetCoinInfoUseCase
 import com.wigroup.cryptoapp.domain.LoadDataUseCase
+import javax.inject.Inject
 
-class CoinViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository = CoinRepositoryImpl(application)
-
-    private val getCoinInfoListUseCase = GetCoinInfoListUseCase(repository)
-    private val getCoinInfoUseCase = GetCoinInfoUseCase(repository)
-    private val loadDataUseCase = LoadDataUseCase(repository)
+class CoinViewModel @Inject constructor(
+    getCoinInfoListUseCase: GetCoinInfoListUseCase,
+    private val getCoinInfoUseCase: GetCoinInfoUseCase,
+    loadDataUseCase: LoadDataUseCase,
+) : ViewModel() {
 
     init {
         loadDataUseCase()
